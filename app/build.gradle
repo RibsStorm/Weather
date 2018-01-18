@@ -25,4 +25,23 @@ dependencies {
 //    testImplementation 'junit:junit:4.12'
 //    androidTestImplementation 'com.android.support.test:runner:1.0.1'
 //    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    // Rx
+    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4'
+    compile 'com.trello.rxlifecycle2:rxlifecycle:2.0.1'
+    compile 'com.trello.rxlifecycle2:rxlifecycle-android:2.0.1'
+    compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.0.1'
+    // network
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
+    compile 'com.squareup.okhttp3:okhttp:3.7.0'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile 'com.orhanobut:logger:1.15'
+    compile 'com.tencent.bugly:crashreport:2.6.6'
 }
