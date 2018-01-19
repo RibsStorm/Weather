@@ -7,13 +7,13 @@ import com.kusofan.seeweather.base.BaseActivity;
 public class MainActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public int setLayoutId() {
+        return R.layout.activity_main;
     }
 
     @Override
-    public int setLayoutId() {
-        return R.layout.activity_main;
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
 }

@@ -1,9 +1,12 @@
 package com.kusofan.seeweather.component;
 
 import com.kusofan.seeweather.common.Const;
+import com.kusofan.seeweather.common.util.LogUtil;
 import com.kusofan.seeweather.common.util.SystemUtil;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
@@ -12,6 +15,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okio.Buffer;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -46,6 +50,8 @@ public class RetrofitManager {
                         .cacheControl(CacheControl.FORCE_CACHE)
                         .build();
             }
+            //打印所有请求
+            logRequest(request);
             Response response = chain.proceed(request);
             Response.Builder newBuilder = response.newBuilder();
             if (SystemUtil.isNetworkConnected()) {
@@ -77,5 +83,33 @@ public class RetrofitManager {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
+    }
+
+    private void logRequest(Request request) {
+        if (request == null) {
+            LogUtil.w("RequestManager", "Request is null!");
+        } else {
+            LogUtil.d("Start Request: " + request.toString());
+            if (request.headers() == null) {
+                LogUtil.d("Start Request: headers: EMPTY");
+            } else {
+                LogUtil.d("Start Request: headers: " + request.headers().toString());
+            }
+
+            if (request.body() == null) {
+                LogUtil.d("Start Request: body: EMPTY");
+            } else {
+                Buffer buffer = new Buffer();
+
+                try {
+                    request.body().writeTo(buffer);
+                } catch (IOException var3) {
+                    var3.printStackTrace();
+                }
+
+                LogUtil.d("Start Request: body: " + buffer.readString(Charset.forName("UTF-8")));
+            }
+        }
+
     }
 }
