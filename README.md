@@ -16,4 +16,7 @@ rxJava,rxAndroid,rxBus,rxLifeCycle
 * rxLifeCycle了解入门
 >http://blog.csdn.net/jdsjlzx/article/details/51527542  <br />emmm...  <br />通过博主讲解可以了解Subject的功能,了解rxLifeCycle的源码
 
+* 天气查询API
+>https://www.heweather.com/douments/api/s6/weather-forecast
+
 `整理流程图中`
