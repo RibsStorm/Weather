@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import com.kusofan.seeweather.base.BaseActivity;
 
+import butterknife.OnClick;
+
 public class MainActivity extends BaseActivity {
 
     @Override
@@ -16,4 +18,8 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
     }
 
+    @OnClick(R.id.testc)
+    void testApi() {
+
+    }
 }

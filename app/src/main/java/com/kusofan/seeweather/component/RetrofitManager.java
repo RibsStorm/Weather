@@ -27,14 +27,27 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitManager {
     private static Retrofit sRetrofit = null;
     private static OkHttpClient sOkHttpClient = null;
+    private static RetrofitManager sInstance;
 
     private RetrofitManager() {
         init();
     }
 
+    public static RetrofitManager getInstance() {
+        if (sInstance == null) {
+            sInstance = new RetrofitManager();
+        }
+
+        return sInstance;
+    }
+
     private void init() {
         initOKHttp();
         initRetrofit();
+    }
+
+    public <R> R getService(Class<R> c) {
+        return sRetrofit.create(c);
     }
 
     private void initOKHttp() {
