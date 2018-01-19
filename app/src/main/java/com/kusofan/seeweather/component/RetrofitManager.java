@@ -1,7 +1,5 @@
 package com.kusofan.seeweather.component;
 
-import com.kusofan.seeweather.BuildConfig;
-import com.kusofan.seeweather.base.BaseApplication;
 import com.kusofan.seeweather.common.Const;
 import com.kusofan.seeweather.common.util.SystemUtil;
 
@@ -22,11 +20,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by heming on 2018/1/18.
  */
 
-public class RetrofitBuilder {
+public class RetrofitManager {
     private static Retrofit sRetrofit = null;
     private static OkHttpClient sOkHttpClient = null;
 
-    private RetrofitBuilder() {
+    private RetrofitManager() {
         init();
     }
 
@@ -40,6 +38,7 @@ public class RetrofitBuilder {
         // 缓存 http://www.jianshu.com/p/93153b34310e
         File cacheFile = new File(Const.NET_CACHE);
         Cache cache = new Cache(cacheFile, 1024 * 1024 * 50);
+
         Interceptor cacheInterceptor = chain -> {
             Request request = chain.request();
             if (!SystemUtil.isNetworkConnected()) {
@@ -49,7 +48,7 @@ public class RetrofitBuilder {
             }
             Response response = chain.proceed(request);
             Response.Builder newBuilder = response.newBuilder();
-            if (Util.isNetworkConnected(BaseApplication.getAppContext())) {
+            if (SystemUtil.isNetworkConnected()) {
                 int maxAge = 0;
                 // 有网络时 设置缓存超时时间0个小时
                 newBuilder.header("Cache-Control", "public, max-age=" + maxAge);
