@@ -9,7 +9,7 @@ import android.content.Context;
 
 public class BaseApplication extends Application {
 
-    public static Context sAppContext;
+    private static Context sAppContext;
     public static String sAppCache;
 
     @Override

@@ -33,6 +33,7 @@ public class RetrofitManager {
         init();
     }
 
+
     public static RetrofitManager getInstance() {
         if (sInstance == null) {
             sInstance = new RetrofitManager();
@@ -58,24 +59,27 @@ public class RetrofitManager {
 
         Interceptor cacheInterceptor = chain -> {
             Request request = chain.request();
-            if (!SystemUtil.isNetworkConnected()) {
-                request = request.newBuilder()
-                        .cacheControl(CacheControl.FORCE_CACHE)
-                        .build();
-            }
+//            if (!SystemUtil.isNetworkConnected()) {
+//                request = request.newBuilder()
+//                        .cacheControl(CacheControl.FORCE_CACHE)
+//                        .build();
+//            }
             //打印所有请求
             logRequest(request);
             Response response = chain.proceed(request);
             Response.Builder newBuilder = response.newBuilder();
-            if (SystemUtil.isNetworkConnected()) {
-                int maxAge = 0;
-                // 有网络时 设置缓存超时时间0个小时
-                newBuilder.header("Cache-Control", "public, max-age=" + maxAge);
-            } else {
-                // 无网络时，设置超时为4周
-                int maxStale = 60 * 60 * 24 * 28;
+//            if (SystemUtil.isNetworkConnected()) {
+//                int maxAge = 0;
+//                // 有网络时 设置缓存超时时间0个小时
+//                newBuilder.header("Cache-Control", "public, max-age=" + maxAge);
+//            } else {
+//                // 无网络时，设置超时为4周
+//                int maxStale = 60 * 60 * 24 * 28;
+//                newBuilder.header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale);
+//            }
+
+                int maxStale = 60 * 60 * 24;
                 newBuilder.header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale);
-            }
             return newBuilder.build();
         };
         builder.cache(cache).addInterceptor(cacheInterceptor);

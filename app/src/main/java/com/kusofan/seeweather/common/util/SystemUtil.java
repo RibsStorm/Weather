@@ -38,10 +38,17 @@ public class SystemUtil {
      * 检查是否有可用网络
      */
     public static boolean isNetworkConnected() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) BaseApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        return connectivityManager.getActiveNetworkInfo() != null;
-    }
+        ConnectivityManager mConnectivityManager =
+                (ConnectivityManager) BaseApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (mConnectivityManager !=null){
 
+        NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+            if (mNetworkInfo != null) {
+                return mNetworkInfo.isAvailable();
+            }
+        }
+        return false;
+    }
     /**
      * 保存文字到剪贴板
      * @param context
