@@ -10,11 +10,12 @@ import android.content.Context;
 public class BaseApplication extends Application {
 
     private static Context sAppContext;
-    public static String sAppCache;
+    private static String sAppCache;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        sAppContext = getApplicationContext();
         //启用工作线程进行初始化
         InitializeService.start(this);
         /*

@@ -3,12 +3,13 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "mvitest.kusofan.com.seeweather"
+        applicationId "com.kusofan.seeweather"
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -20,12 +21,14 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
     }
-    buildToolsVersion '26.0.1'
+    buildToolsVersion '26.0.2'
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support:cardview-v7:26.1.0'
     //    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     //    testImplementation 'junit:junit:4.12'
     //    androidTestImplementation 'com.android.support.test:runner:1.0.1'
@@ -49,4 +52,5 @@ dependencies {
     compile 'com.orhanobut:logger:1.15'
     compile 'com.tencent.bugly:crashreport:2.6.6'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
+
 }

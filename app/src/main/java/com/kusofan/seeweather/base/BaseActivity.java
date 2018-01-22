@@ -27,4 +27,6 @@ public abstract class BaseActivity extends RxAppCompatActivity {
     }
 
     public abstract int setLayoutId();
+
+
 }

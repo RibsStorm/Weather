@@ -25,6 +25,7 @@ public class SystemUtil {
                 .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         return wifiInfo != null;
     }
+
     /**
      * 检查手机网络(4G/3G/2G)是否连接
      */
@@ -34,15 +35,16 @@ public class SystemUtil {
                 .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
         return mobileNetworkInfo != null;
     }
+
     /**
      * 检查是否有可用网络
      */
     public static boolean isNetworkConnected() {
         ConnectivityManager mConnectivityManager =
                 (ConnectivityManager) BaseApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (mConnectivityManager !=null){
+        if (mConnectivityManager != null) {
 
-        NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+            NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
             if (mNetworkInfo != null) {
                 return mNetworkInfo.isAvailable();
             }

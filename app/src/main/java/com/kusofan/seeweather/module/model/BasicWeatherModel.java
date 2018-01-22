@@ -5,7 +5,7 @@ package com.kusofan.seeweather.module.model;
  */
 
 
-public class BaseWeatherModel {
+public class BasicWeatherModel {
     /**
      * "cid":"CN101010100",
      * "location":"北京",
@@ -33,7 +33,7 @@ public class BaseWeatherModel {
     //该地区／城市所在时区
     private String tz;
 
-    public BaseWeatherModel() {
+    public BasicWeatherModel() {
     }
 
     /**
@@ -46,7 +46,7 @@ public class BaseWeatherModel {
      * @param lon         地区／城市纬度
      * @param tz          该地区／城市所在时区
      */
-    public BaseWeatherModel(String cid, String location, String parent_city, String admin_area, String cnty, String lat, String lon, String tz) {
+    public BasicWeatherModel(String cid, String location, String parent_city, String admin_area, String cnty, String lat, String lon, String tz) {
         this.cid = cid;
         this.location = location;
         this.parent_city = parent_city;
