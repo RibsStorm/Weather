@@ -6,7 +6,7 @@ import java.util.List;
  * Created by heming on 2018/1/19.
  */
 
-public class Weather extends BaseMode {
+public class Weather extends BaseMode{
 
     private BasicWeatherModel basic;
 
@@ -19,6 +19,7 @@ public class Weather extends BaseMode {
     private List<HourlyModel> hourly;
 
     private List<LifeStyleModel> lifestyle;
+
 
     public Weather() {
     }
@@ -79,4 +80,6 @@ public class Weather extends BaseMode {
     public void setLifestyle(List<LifeStyleModel> lifestyle) {
         this.lifestyle = lifestyle;
     }
+
+
 }

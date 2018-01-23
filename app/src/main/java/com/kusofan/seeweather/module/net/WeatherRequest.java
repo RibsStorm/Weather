@@ -5,7 +5,7 @@ import com.kusofan.seeweather.common.util.RxUtil;
 import com.kusofan.seeweather.common.util.ToastUtil;
 import com.kusofan.seeweather.component.RetrofitManager;
 import com.kusofan.seeweather.module.api.WeatherInterface;
-import com.kusofan.seeweather.module.model.WeatherAPI;
+import com.kusofan.seeweather.module.model.Weather;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +30,7 @@ public class WeatherRequest {
     private WeatherRequest() {
     }
 
-    public Observable<WeatherAPI> getWeather(String city) {
+    public Observable<Weather> getWeather(String city) {
         return RetrofitManager.getInstance()
                 .getService(WeatherInterface.class)
                 .mWeatherAPI(city, Const.KEY_WEATHER)
@@ -44,12 +44,8 @@ public class WeatherRequest {
                         return Observable.just(weather);
                     }
                 })
+                .map(weather-> weather.getHeWeather6().get(0))
                 //接受Observable.error发送出来的error
-                //java8 特殊语法：：
-                //应该等效于
-//                .doOnError(throwable -> {
-//                    disposeFailureInfo(throwable);
-//                })
                 .doOnError(WeatherRequest::disposeFailureInfo)
                 //使用转换器，代码统一处理。进行线程切换
                 .compose(RxUtil.io());
