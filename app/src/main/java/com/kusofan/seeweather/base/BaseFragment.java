@@ -1,5 +1,7 @@
 package com.kusofan.seeweather.base;
 
+import android.content.Context;
+
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
 /**
@@ -8,6 +10,11 @@ import com.trello.rxlifecycle2.components.support.RxFragment;
  */
 
 public class BaseFragment extends RxFragment {
+    protected Context mContext;
 
-
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.mContext = context;
+    }
 }

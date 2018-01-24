@@ -13,6 +13,7 @@ import android.view.MenuItem;
 
 import com.kusofan.seeweather.base.BaseActivity;
 import com.kusofan.seeweather.base.BaseFragment;
+import com.kusofan.seeweather.common.util.SharedPreferenceUtil;
 import com.kusofan.seeweather.module.adapter.MinePageAdapter;
 import com.kusofan.seeweather.module.view.MainFragment;
 import com.kusofan.seeweather.module.view.MoreCityFragment;
@@ -53,8 +54,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         super.onCreate(savedInstanceState);
 
         initView();
-
+        initIcon();
     }
+
+
 
     private void initView() {
         setSupportActionBar(mToolbar);
@@ -108,5 +111,38 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void initIcon() {
+        if (SharedPreferenceUtil.getInstance().getIconType() == 0) {
+            SharedPreferenceUtil.getInstance().putInt("未知", R.drawable.none);
+            SharedPreferenceUtil.getInstance().putInt("晴", R.drawable.type_one_sunny);
+            SharedPreferenceUtil.getInstance().putInt("阴", R.drawable.type_one_cloudy);
+            SharedPreferenceUtil.getInstance().putInt("多云", R.drawable.type_one_cloudy);
+            SharedPreferenceUtil.getInstance().putInt("少云", R.drawable.type_one_cloudy);
+            SharedPreferenceUtil.getInstance().putInt("晴间多云", R.drawable.type_one_cloudytosunny);
+            SharedPreferenceUtil.getInstance().putInt("小雨", R.drawable.type_one_light_rain);
+            SharedPreferenceUtil.getInstance().putInt("中雨", R.drawable.type_one_light_rain);
+            SharedPreferenceUtil.getInstance().putInt("大雨", R.drawable.type_one_heavy_rain);
+            SharedPreferenceUtil.getInstance().putInt("阵雨", R.drawable.type_one_thunderstorm);
+            SharedPreferenceUtil.getInstance().putInt("雷阵雨", R.drawable.type_one_thunder_rain);
+            SharedPreferenceUtil.getInstance().putInt("霾", R.drawable.type_one_fog);
+            SharedPreferenceUtil.getInstance().putInt("雾", R.drawable.type_one_fog);
+        } else {
+            SharedPreferenceUtil.getInstance().putInt("未知", R.drawable.none);
+            SharedPreferenceUtil.getInstance().putInt("晴", R.drawable.type_two_sunny);
+            SharedPreferenceUtil.getInstance().putInt("阴", R.drawable.type_two_cloudy);
+            SharedPreferenceUtil.getInstance().putInt("多云", R.drawable.type_two_cloudy);
+            SharedPreferenceUtil.getInstance().putInt("少云", R.drawable.type_two_cloudy);
+            SharedPreferenceUtil.getInstance().putInt("晴间多云", R.drawable.type_two_cloudytosunny);
+            SharedPreferenceUtil.getInstance().putInt("小雨", R.drawable.type_two_light_rain);
+            SharedPreferenceUtil.getInstance().putInt("中雨", R.drawable.type_two_rain);
+            SharedPreferenceUtil.getInstance().putInt("大雨", R.drawable.type_two_rain);
+            SharedPreferenceUtil.getInstance().putInt("阵雨", R.drawable.type_two_rain);
+            SharedPreferenceUtil.getInstance().putInt("雷阵雨", R.drawable.type_two_thunderstorm);
+            SharedPreferenceUtil.getInstance().putInt("霾", R.drawable.type_two_haze);
+            SharedPreferenceUtil.getInstance().putInt("雾", R.drawable.type_two_fog);
+            SharedPreferenceUtil.getInstance().putInt("雨夹雪", R.drawable.type_two_snowrain);
+        }
     }
 }

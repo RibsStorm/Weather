@@ -11,6 +11,7 @@
 
 
     <color name="aboutIcon">#106c99</color>
+    <color name="common_white">#ffffff</color>
     <!--多城市列表和卡片配色-->
     <color name="multi_text">#C1C1C1</color>
     <color name="multi_content">#696969</color>

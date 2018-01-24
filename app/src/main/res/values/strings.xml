@@ -14,4 +14,9 @@
 
     <string name="main_weather">天气</string>
     <string name="main_more_city">多城市</string>
+
+    <!--now-->
+    <string name="main_now_temp">%s℃</string>
+    <string name="main_now_low">↓ %s</string>
+    <string name="main_now_high">↑ %s</string>
 </resources>
