@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">看哈天气</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">打开侧边栏</string>
+    <string name="navigation_drawer_close">关闭侧边栏</string>
 
     <string name="action_settings">Settings</string>
 
@@ -17,6 +17,5 @@
 
     <!--now-->
     <string name="main_now_temp">%s℃</string>
-    <string name="main_now_low">↓ %s</string>
-    <string name="main_now_high">↑ %s</string>
+    <string name="main_now_time">更新时间: %s</string>
 </resources>

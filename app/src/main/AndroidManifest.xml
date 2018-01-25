@@ -24,6 +24,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".module.view.CityActivity"/>
+
         <service android:name=".base.InitializeService" />
     </application>
 

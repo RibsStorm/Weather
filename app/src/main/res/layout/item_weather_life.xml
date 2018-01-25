@@ -2,8 +2,12 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:elevation="4dp">
+    android:elevation="6dp"
+    android:padding="8dp">
 
-
-
+    <LinearLayout
+        android:id="@+id/ll_life_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
 </android.support.v7.widget.CardView>
