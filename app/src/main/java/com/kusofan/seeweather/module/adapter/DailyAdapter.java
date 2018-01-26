@@ -5,8 +5,8 @@ import android.support.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.kusofan.seeweather.R;
+import com.kusofan.seeweather.common.WeatherConstant;
 import com.kusofan.seeweather.common.util.LogUtil;
-import com.kusofan.seeweather.common.util.SharedPreferenceUtil;
 import com.kusofan.seeweather.common.util.TimeUitl;
 import com.kusofan.seeweather.module.model.DailyForecastModel;
 
@@ -25,8 +25,8 @@ public class DailyAdapter extends BaseQuickAdapter<DailyForecastModel, BaseViewH
     @Override
     protected void convert(BaseViewHolder helper, DailyForecastModel item) {
 
-        int dayIcon = SharedPreferenceUtil.getInstance().getInt(item.getCond_txt_d(), R.drawable.none);
-        int nightIcon = SharedPreferenceUtil.getInstance().getInt(item.getCond_txt_n(), R.drawable.none);
+        int dayIcon = WeatherConstant.getInstance().weaIcons.get(item.getCond_txt_d());
+        int nightIcon = WeatherConstant.getInstance().weaIcons.get(item.getCond_txt_n());
 
         helper.setBackgroundRes(R.id.iv_daily_icon_d, dayIcon)
                 .setBackgroundRes(R.id.iv_daily_icon_n, nightIcon)

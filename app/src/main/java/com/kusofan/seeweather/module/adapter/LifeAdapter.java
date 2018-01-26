@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.kusofan.seeweather.R;
-import com.kusofan.seeweather.common.util.SharedPreferenceUtil;
+import com.kusofan.seeweather.common.WeatherConstant;
 import com.kusofan.seeweather.module.model.LifeStyleModel;
 
 import java.util.List;
@@ -22,11 +22,11 @@ public class LifeAdapter extends BaseQuickAdapter<LifeStyleModel, BaseViewHolder
 
     @Override
     protected void convert(BaseViewHolder helper, LifeStyleModel item) {
-        int icon = SharedPreferenceUtil.getInstance().getInt(item.getType() + "Icon", R.drawable.github);
-        String type = SharedPreferenceUtil.getInstance().getString(item.getType(), "暂无推荐");
+        int icon = WeatherConstant.getInstance().lifeIcons.get(item.getType());
+        String type = WeatherConstant.getInstance().lifeStyles.get(item.getType());
 
-        helper.setText(R.id.tv_life_type,type)
-                .setText(R.id.tv_life_tips,item.getTxt())
-                .setBackgroundRes(R.id.iv_life_icon,icon);
+        helper.setText(R.id.tv_life_type, type)
+                .setText(R.id.tv_life_tips, item.getTxt())
+                .setBackgroundRes(R.id.iv_life_icon, icon);
     }
 }

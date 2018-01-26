@@ -18,9 +18,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kusofan.seeweather.base.BaseActivity;
+import com.kusofan.seeweather.common.WeatherConstant;
 import com.kusofan.seeweather.common.util.CircularAnimUtil;
 import com.kusofan.seeweather.common.util.RxUtil;
-import com.kusofan.seeweather.common.util.SharedPreferenceUtil;
 import com.kusofan.seeweather.component.RxBus;
 import com.kusofan.seeweather.module.model.Weather;
 import com.kusofan.seeweather.module.net.WeatherRequest;
@@ -131,7 +131,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mTvWeaTemp.setText(getResources().getString(R.string.main_now_temp, weather.getNow().getTmp()));
         mTvWeaTime.setText(getResources().getString(R.string.main_now_time, weather.getUpdate().getLoc()));
         mTvWeaTv.setText(weather.getNow().getCond_txt());
-        int weatherIcon = SharedPreferenceUtil.getInstance().getInt(weather.getNow().getCond_txt(), R.drawable.none);
+        int weatherIcon = WeatherConstant.getInstance().weaIcons.get(weather.getNow().getCond_txt());
         mIvWeaIcon.setBackground(getResources().getDrawable(weatherIcon));
     }
 
