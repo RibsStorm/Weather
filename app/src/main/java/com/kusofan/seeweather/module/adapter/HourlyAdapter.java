@@ -17,7 +17,7 @@ public class HourlyAdapter extends BaseQuickAdapter<HourlyModel, BaseViewHolder>
 
 
     public HourlyAdapter(@Nullable List<HourlyModel> data) {
-        super(R.layout.item_weather_hourly,data);
+        super(R.layout.item_hourly,data);
     }
 
     @Override

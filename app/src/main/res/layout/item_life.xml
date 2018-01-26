@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="128dp"
-    android:orientation="horizontal">
+    android:layout_height="98dp">
 
     <ImageView
         android:id="@+id/iv_life_icon"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:layout_centerVertical="true"
-        android:layout_margin="32dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/icon_air" />
 
     <LinearLayout
@@ -17,6 +19,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="6dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginRight="12dp"
         android:layout_marginTop="6dp"
         android:layout_toRightOf="@id/iv_life_icon"
         android:orientation="vertical">
@@ -27,13 +30,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="穿衣指数 -- 寒冷"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_life_tips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="dsadashddsajkjbsjkhfasfjbkjsanavghjbknhgvjbkngchvjbnchvgbhjnchgvjb" />
+            android:text="dsadashddsajkjbsjkhfasfjbkjsanavghjbknhgvjbkngchvjbnchvgbhjnchgvjb"
+            android:textSize="12sp" />
     </LinearLayout>
 </RelativeLayout>

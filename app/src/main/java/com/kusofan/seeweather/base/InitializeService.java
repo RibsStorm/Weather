@@ -105,13 +105,13 @@ public class InitializeService extends IntentService {
     }
 
     private void initLifeIcon() {
-        SharedPreferenceUtil.getInstance().putInt("comf", R.drawable.icon_comf);
-        SharedPreferenceUtil.getInstance().putInt("cw", R.drawable.icon_cw);
-        SharedPreferenceUtil.getInstance().putInt("drsg", R.drawable.icon_drsg);
-        SharedPreferenceUtil.getInstance().putInt("flu", R.drawable.icon_flu);
-        SharedPreferenceUtil.getInstance().putInt("sport", R.drawable.icon_sport);
-        SharedPreferenceUtil.getInstance().putInt("trav", R.drawable.icon_travel);
-        SharedPreferenceUtil.getInstance().putInt("uv", R.drawable.icon_uv);
-        SharedPreferenceUtil.getInstance().putInt("air", R.drawable.icon_air);
+        SharedPreferenceUtil.getInstance().putInt("comfIcon", R.drawable.icon_comf);
+        SharedPreferenceUtil.getInstance().putInt("cwIcon", R.drawable.icon_cw);
+        SharedPreferenceUtil.getInstance().putInt("drsgIcon", R.drawable.icon_drsg);
+        SharedPreferenceUtil.getInstance().putInt("fluIcon", R.drawable.icon_flu);
+        SharedPreferenceUtil.getInstance().putInt("sportIcon", R.drawable.icon_sport);
+        SharedPreferenceUtil.getInstance().putInt("travIcon", R.drawable.icon_travel);
+        SharedPreferenceUtil.getInstance().putInt("uvIcon", R.drawable.icon_uv);
+        SharedPreferenceUtil.getInstance().putInt("airIcon", R.drawable.icon_air);
     }
 }

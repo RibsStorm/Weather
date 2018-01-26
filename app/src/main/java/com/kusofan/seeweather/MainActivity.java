@@ -131,7 +131,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mTvWeaTemp.setText(getResources().getString(R.string.main_now_temp, weather.getNow().getTmp()));
         mTvWeaTime.setText(getResources().getString(R.string.main_now_time, weather.getUpdate().getLoc()));
         mTvWeaTv.setText(weather.getNow().getCond_txt());
-        int weatherIcon = SharedPreferenceUtil.getInstance().getInt(weather.getNow().getCond_code(), R.drawable.none);
+        int weatherIcon = SharedPreferenceUtil.getInstance().getInt(weather.getNow().getCond_txt(), R.drawable.none);
         mIvWeaIcon.setBackground(getResources().getDrawable(weatherIcon));
     }
 
