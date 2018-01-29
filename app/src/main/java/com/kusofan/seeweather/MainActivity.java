@@ -2,6 +2,7 @@ package com.kusofan.seeweather;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -13,6 +14,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -64,6 +68,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public int setLayoutId() {
+        //只有需要透明状态栏才设置这个,如果是纯色状态栏也设置的话,就会有一条黑线
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+        }
         return R.layout.activity_main;
     }
 
@@ -115,7 +128,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void initData() {
-        getWeather("上海")
+        getWeather("黄梅")
                 .doOnNext(weather -> {
                     initAppbarForWeather(weather);
                     RxBus.getDefault().post(weather);

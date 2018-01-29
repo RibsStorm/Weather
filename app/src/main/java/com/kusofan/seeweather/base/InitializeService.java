@@ -6,6 +6,7 @@ import android.content.Intent;
 
 import com.kusofan.seeweather.common.Const;
 import com.kusofan.seeweather.common.util.SystemUtil;
+import com.kusofan.seeweather.module.model.db.DatabaseHelper;
 import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -42,7 +43,8 @@ public class InitializeService extends IntentService {
         Logger.init(getPackageName()).hideThreadInfo();
         //bugly. 调试阶段使用true,release使用false
         initBugly();
-
+        //导入城市数据库
+        DatabaseHelper.importCityDB();
         //TODO...待添加检测内存泄漏等...
     }
 
