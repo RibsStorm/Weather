@@ -24,10 +24,8 @@ public class DailyAdapter extends BaseQuickAdapter<DailyForecastModel, BaseViewH
 
     @Override
     protected void convert(BaseViewHolder helper, DailyForecastModel item) {
-
         int dayIcon = WeatherConstant.getInstance().weaIcons.get(item.getCond_txt_d());
         int nightIcon = WeatherConstant.getInstance().weaIcons.get(item.getCond_txt_n());
-
         helper.setBackgroundRes(R.id.iv_daily_icon_d, dayIcon)
                 .setBackgroundRes(R.id.iv_daily_icon_n, nightIcon)
                 .setText(R.id.tv_daily_temp, mContext.getResources().getString(R.string.main_daily_temp, item.getTmp_min(), item.getTmp_max()))

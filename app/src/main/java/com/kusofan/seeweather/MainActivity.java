@@ -105,7 +105,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             CircularAnimUtil.startActivity(this,intent,mFab,R.color.colorPrimary);
         });
         //TODO...到时候通过定位获取.
-        mToolbar.setTitle("上海");
+//        mToolbar.setTitle("上海");
         mCollapsingToolbar.setTitle("上海");
     }
 

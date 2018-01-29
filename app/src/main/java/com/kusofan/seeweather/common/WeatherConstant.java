@@ -23,7 +23,7 @@ public class WeatherConstant {
         return sInstance;
     }
 
-    public WeatherConstant() {
+    private WeatherConstant() {
         initData();
     }
 
