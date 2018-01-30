@@ -11,48 +11,51 @@ public class Zone {
     public static final String ZONE_NAME = "ZoneName";
     public static final String CITY_ID = "CityID";
     public static final String ZONE_ID = "ZoneID";
+    /**
+     * 属性名得写的和表里面一样,首字母大写.否则会抛异常,说找不到这个属性
+     */
     //县城/区 名称
     @DatabaseField(columnDefinition = ZONE_NAME)
-    private String zoneName;
+    private String ZoneName;
 
     //关联 City表的那个 CitySort
     @DatabaseField(columnDefinition = CITY_ID)
-    private String cityID;
+    private String CityID;
 
     //排序
-    @DatabaseField(generatedId = true,columnDefinition = ZONE_ID)
-    private String zoneID;
+    @DatabaseField(columnDefinition = ZONE_ID)
+    private String ZoneID;
 
     public Zone() {
     }
 
     public Zone(String zoneName, String cityID, String zoneID) {
-        this.zoneName = zoneName;
-        this.cityID = cityID;
-        this.zoneID = zoneID;
+        ZoneName = zoneName;
+        CityID = cityID;
+        ZoneID = zoneID;
     }
 
     public String getZoneName() {
-        return zoneName;
+        return ZoneName;
     }
 
     public void setZoneName(String zoneName) {
-        this.zoneName = zoneName;
+        ZoneName = zoneName;
     }
 
     public String getCityID() {
-        return cityID;
+        return CityID;
     }
 
     public void setCityID(String cityID) {
-        this.cityID = cityID;
+        CityID = cityID;
     }
 
     public String getZoneID() {
-        return zoneID;
+        return ZoneID;
     }
 
     public void setZoneID(String zoneID) {
-        this.zoneID = zoneID;
+        ZoneID = zoneID;
     }
 }
