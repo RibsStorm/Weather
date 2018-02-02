@@ -7,7 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * Created by heming on 2018/1/29.
  */
 @DatabaseTable(tableName = "T_City")
-public class City {
+public class City{
 
     public static final String CITY_NAME = "CityName";
     public static final String PRO_ID = "ProID";

@@ -7,7 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * Created by heming on 2018/1/29.
  */
 @DatabaseTable(tableName = "T_Province")
-public class Province {
+public class Province{
     public static final String PROVINCE_NAME = "ProName";
     public static final String PROVINCE_SORT = "ProSort";
     public static final String PROVINCE_REMARK = "ProRemark";

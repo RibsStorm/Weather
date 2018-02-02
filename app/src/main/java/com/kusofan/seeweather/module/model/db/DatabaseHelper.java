@@ -4,18 +4,15 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
-import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
 import com.kusofan.seeweather.R;
 import com.kusofan.seeweather.base.BaseApplication;
-import com.kusofan.seeweather.common.util.LogUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.SQLException;
 
 /**
  * Created by heming on 2018/1/29.
@@ -55,14 +52,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         DaoManager.clearCache();
     }
 
-    public <D extends Dao<T, ?>, T> D getCityDao(Class<T> clazz) {
-        try {
-            return getDao(clazz);
-        } catch (SQLException e) {
-            LogUtil.e(e.getMessage());
-        }
-        return null;
-    }
+//    public <D extends Dao<T, ?>, T> D getCityDao(Class<T> clazz) {
+//        try {
+//            return getDao(clazz);
+//        } catch (SQLException e) {
+//            LogUtil.e(e.getMessage());
+//        }
+//        return null;
+//    }
 
     /**
      * 导入城市数据库
