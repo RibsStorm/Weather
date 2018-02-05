@@ -28,7 +28,6 @@ public class ProvinceDao {
         }
     }
 
-
     /**
      * 查
      *
@@ -43,19 +42,4 @@ public class ProvinceDao {
         }
         return users;
     }
-
-    /**
-     * 获取Province
-     *
-     * @param id user编号
-     * @return
-     */
-//    public Province getUser(Integer id) {
-//        try {
-//            return mProvinceDao.queryForId(id);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
 }

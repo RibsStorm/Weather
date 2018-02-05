@@ -1,22 +1,19 @@
 package com.kusofan.seeweather.module.view;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.kusofan.seeweather.R;
 import com.kusofan.seeweather.base.BaseActivity;
 import com.kusofan.seeweather.common.util.RxUtil;
+import com.kusofan.seeweather.component.RxBus;
 import com.kusofan.seeweather.module.adapter.CityAdapter;
 import com.kusofan.seeweather.module.model.db.City;
 import com.kusofan.seeweather.module.model.db.CityDao;
-import com.kusofan.seeweather.module.model.db.DatabaseHelper;
 import com.kusofan.seeweather.module.model.db.Province;
 import com.kusofan.seeweather.module.model.db.ProvinceDao;
 import com.kusofan.seeweather.module.model.db.Zone;
@@ -54,8 +51,8 @@ public class CityActivity extends BaseActivity {
 
     private int currentLever = -1;
     public static final int LEVER_PROVINCE = -1;
-    public static final int LEVER_CITY = -3;
-    public static final int LEVER_ZONE = -4;
+    public static final int LEVER_CITY = -2;
+    public static final int LEVER_ZONE = -3;
 
 
     @Override
@@ -72,38 +69,30 @@ public class CityActivity extends BaseActivity {
         queryProvince();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_search, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.menu_search) {
-            SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-            //TODO...
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        DatabaseHelper.getHelper(this).close();
-    }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        if (currentLever == LEVER_PROVINCE){
+        if (currentLever == LEVER_PROVINCE) {
             finish();
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-        }else if (currentLever ==LEVER_CITY){
-            queryProvince();
-        }else if (currentLever == LEVER_ZONE){
-            queryCity();
+        } else if (currentLever == LEVER_CITY) {
+
+            currentLever = LEVER_PROVINCE;
+            nowCitys.clear();
+            for (Province province : mProvinces) {
+                nowCitys.add(province.getProName());
+            }
+            mCityAdapter.notifyDataSetChanged();
+            mCityRecycler.smoothScrollToPosition(0);
+        } else if (currentLever == LEVER_ZONE) {
+
+            currentLever = LEVER_CITY;
+            nowCitys.clear();
+            for (City city : mCities) {
+                nowCitys.add(city.getCityName());
+            }
+            mCityAdapter.notifyDataSetChanged();
+            mCityRecycler.smoothScrollToPosition(0);
         }
     }
 
@@ -121,9 +110,30 @@ public class CityActivity extends BaseActivity {
                 queryCity();
             } else if (currentLever == LEVER_CITY) {
                 mCity = mCities.get(position);
+
+                if (mCity.getCityName().contains("香港") || mCity.getCityName().contains("澳门")) {
+
+                    new AlertDialog.Builder(this)
+                            .setMessage("是否确定添加该城市?")
+                            .setNegativeButton("取消", (dialog, i) -> {
+
+                            }).setPositiveButton("确定", (dialog, i) -> {
+                        RxBus.getDefault().post(mCity.getCityName());
+                        CityActivity.this.finish();
+                    }).create().show();
+
+                }
                 queryZone();
             } else if (currentLever == LEVER_ZONE) {
-                //TODO...弹窗,将选中的城市添加到  城市列表内
+
+                new AlertDialog.Builder(this)
+                        .setMessage("是否确定添加该城市?")
+                        .setNegativeButton("取消", (dialog, i) -> {
+
+                        }).setPositiveButton("确定", (dialog, i) -> {
+                    RxBus.getDefault().post(nowCitys.get(position));
+                    CityActivity.this.finish();
+                }).create().show();
             }
         });
     }
@@ -142,12 +152,13 @@ public class CityActivity extends BaseActivity {
                 emitter.onNext(province.getProName());
             }
             emitter.onComplete();
-        }, BackpressureStrategy.BUFFER)
+        }, BackpressureStrategy.LATEST)
                 .compose(RxUtil.ioF())
                 .compose(RxUtil.activityLifecycleF(this))
                 .doOnNext(proName -> nowCitys.add(proName))
                 .doOnComplete(() -> {
                     mCityAdapter.notifyDataSetChanged();
+                    mCityRecycler.smoothScrollToPosition(0);
                     //默认为一级
                     currentLever = LEVER_PROVINCE;
                 })
@@ -158,6 +169,7 @@ public class CityActivity extends BaseActivity {
      * 从数据库查询 二级城市
      */
     private void queryCity() {
+        nowCitys.clear();
         mCityToolbar.setTitle("选择城市");
         CityDao cityDao = new CityDao(this);
 
@@ -168,13 +180,13 @@ public class CityActivity extends BaseActivity {
                 emitter.onNext(city.getCityName());
             }
             emitter.onComplete();
-        }, BackpressureStrategy.BUFFER)
+        }, BackpressureStrategy.LATEST)
                 .compose(RxUtil.ioF())
                 .compose(RxUtil.activityLifecycleF(this))
                 .doOnNext(cityName -> nowCitys.add(cityName))
                 .doOnComplete(() -> {
                     mCityAdapter.notifyDataSetChanged();
-                    //默认为一级
+                    mCityRecycler.smoothScrollToPosition(0);
                     currentLever = LEVER_CITY;
                 })
                 .subscribe();
@@ -184,25 +196,43 @@ public class CityActivity extends BaseActivity {
      * 从数据库查询 三级城市
      */
     private void queryZone() {
-        mCityToolbar.setTitle("选择县城");
+        nowCitys.clear();
+        mCityToolbar.setTitle("选择区/县");
         ZoneDao zoneDao = new ZoneDao(this);
         Flowable.create((FlowableOnSubscribe<String>) emitter -> {
             mZones = zoneDao.queryZoneById(mCity.getCitySort());
-
             for (Zone zone : mZones) {
                 emitter.onNext(zone.getZoneName());
             }
             emitter.onComplete();
-        }, BackpressureStrategy.BUFFER)
+        }, BackpressureStrategy.LATEST)
                 .compose(RxUtil.ioF())
                 .compose(RxUtil.activityLifecycleF(this))
                 .doOnNext(zoneName -> nowCitys.add(zoneName))
                 .doOnComplete(() -> {
-                    mCityAdapter.notifyDataSetChanged();
-                    //默认为一级
-                    currentLever = LEVER_ZONE;
+                    //避免 香港/澳门 这种没有 三级选项的进来
+                    if (nowCitys.size() != 0) {
+                        mCityAdapter.notifyDataSetChanged();
+                        mCityRecycler.smoothScrollToPosition(0);
+                        currentLever = LEVER_ZONE;
+                    }
                 })
                 .subscribe();
     }
 
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        //这数据库太坑爹, 不好3表一起查, 不做动态搜索
+//        getMenuInflater().inflate(R.menu.menu_search, menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
+
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//        if (id == R.id.menu_search) {
+//            SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 }

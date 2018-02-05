@@ -114,8 +114,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         );
         //设置fab
         mFab.setOnClickListener(view -> {
-            Intent intent = new Intent(this,CityActivity.class);
-            CircularAnimUtil.startActivity(this,intent,mFab,R.color.colorPrimary);
+            Intent intent = new Intent(this, CityActivity.class);
+            CircularAnimUtil.startActivity(this, intent, mFab, R.color.colorPrimary);
         });
         //TODO...到时候通过定位获取.
 //        mToolbar.setTitle("上海");
@@ -176,6 +176,4 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
 }
