@@ -1,6 +1,5 @@
 package com.kusofan.seeweather.common.util;
 
-import android.app.Notification;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -8,7 +7,7 @@ import com.kusofan.seeweather.base.BaseApplication;
 
 /**
  * Created by hugo on 2016/2/19 0019.
- *
+ * <p>
  * 设置相关 包括 sp 的写入
  */
 public class SharedPreferenceUtil {
@@ -75,57 +74,12 @@ public class SharedPreferenceUtil {
         return mPrefs.getInt(HOUR, 0);
     }
 
-    // 图标种类相关
-    public void setIconType(int type) {
-        mPrefs.edit().putInt(CHANGE_ICONS, type).apply();
-    }
-
-    public int getIconType() {
-        return mPrefs.getInt(CHANGE_ICONS, 0);
-    }
-
-    // 自动更新时间 hours
-    public void setAutoUpdate(int t) {
-        mPrefs.edit().putInt(AUTO_UPDATE, t).apply();
-    }
-
-    public int getAutoUpdate() {
-        return mPrefs.getInt(AUTO_UPDATE, 3);
-    }
-
     //当前城市
     public void setCityName(String name) {
         mPrefs.edit().putString(CITY_NAME, name).apply();
     }
 
     public String getCityName() {
-        return mPrefs.getString(CITY_NAME, "北京");
-    }
-
-    //  通知栏模式 默认为常驻
-    public void setNotificationModel(int t) {
-        mPrefs.edit().putInt(NOTIFICATION_MODEL, t).apply();
-    }
-
-    public int getNotificationModel() {
-        return mPrefs.getInt(NOTIFICATION_MODEL, Notification.FLAG_ONGOING_EVENT);
-    }
-
-    // 首页 Item 动画效果 默认关闭
-
-    public void setMainAnim(boolean b) {
-        mPrefs.edit().putBoolean(ANIM_START, b).apply();
-    }
-
-    public boolean getMainAnim() {
-        return mPrefs.getBoolean(ANIM_START, false);
-    }
-
-    public void setWatcherSwitcher(boolean b) {
-        mPrefs.edit().putBoolean(WATCHER, b).apply();
-    }
-
-    public boolean getWatcherSwitch() {
-        return mPrefs.getBoolean(WATCHER, false);
+        return mPrefs.getString(CITY_NAME, "上海市");
     }
 }

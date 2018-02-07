@@ -1,5 +1,6 @@
 package com.kusofan.seeweather;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -13,6 +14,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -21,10 +23,14 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
 import com.kusofan.seeweather.base.BaseActivity;
 import com.kusofan.seeweather.common.WeatherConstant;
 import com.kusofan.seeweather.common.util.CircularAnimUtil;
 import com.kusofan.seeweather.common.util.RxUtil;
+import com.kusofan.seeweather.common.util.SharedPreferenceUtil;
+import com.kusofan.seeweather.common.util.ToastUtil;
 import com.kusofan.seeweather.component.RxBus;
 import com.kusofan.seeweather.module.model.Weather;
 import com.kusofan.seeweather.module.net.WeatherRequest;
@@ -32,9 +38,11 @@ import com.kusofan.seeweather.module.view.CityActivity;
 import com.kusofan.seeweather.module.view.MainFragment;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * TODO...理一下网络请求流程
@@ -66,6 +74,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @BindView(R.id.fab)
     FloatingActionButton mFab;
 
+    private String city;
+    private AMapLocationClient mlocationClient;
+    private AMapLocationClientOption mLocationOption = null;
+
     @Override
     public int setLayoutId() {
         //只有需要透明状态栏才设置这个,如果是纯色状态栏也设置的话,就会有一条黑线
@@ -83,10 +95,50 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        initPermission();
         initView();
-        initData();
+        RxBus.getDefault().toObservable(String.class)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .doOnNext(city -> {
+                    this.city = city;
+                    mCollapsingToolbar.setTitle(city);
+                    initData(city);
+                    SharedPreferenceUtil.getInstance().setCityName(city);
+                }).subscribe();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mlocationClient.onDestroy();
+    }
+
+    private void initPermission() {
+        new RxPermissions(this)
+                .requestEach(Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(permission -> {
+                    if (permission.name.equals(Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                        if (!permission.granted) {
+                            ToastUtil.shortToast("获取定位权限失败,自动定位功能将失效,无法自动定位,选择为默认城市");
+                            city = "上海";
+                            initData(city);
+                        } else {
+                            initLocation();
+                        }
+                    } else if (permission.name.equals(Manifest.permission.READ_PHONE_STATE)) {
+                        if (!permission.granted) {
+                            ToastUtil.shortToast("请前往权限管理内打开读取手机信息权限,该权限用于获取手机基础信息");
+                        }
+                    } else if (permission.name.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        if (!permission.granted) {
+                            ToastUtil.shortToast("请前往权限管理内打开读写文件权限,该权限用于存储错误信息以便反馈.");
+                        }
+                    }
+                });
+    }
+
 
     private void initView() {
         setSupportActionBar(mToolbar);
@@ -110,16 +162,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mRefreshLayout.setRefreshHeader(header);
         //下拉刷新时,请求initData()方法
         mRefreshLayout.setOnRefreshListener(
-                refreshlayout -> initData()
+                refreshlayout -> initData(city)
         );
         //设置fab
         mFab.setOnClickListener(view -> {
             Intent intent = new Intent(this, CityActivity.class);
             CircularAnimUtil.startActivity(this, intent, mFab, R.color.colorPrimary);
         });
-        //TODO...到时候通过定位获取.
-//        mToolbar.setTitle("上海");
-        mCollapsingToolbar.setTitle("上海");
+        mCollapsingToolbar.setTitle(SharedPreferenceUtil.getInstance().getCityName());
     }
 
     private Observable<Weather> getWeather(String city) {
@@ -127,8 +177,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 .compose(RxUtil.activityLifecycle(this));
     }
 
-    private void initData() {
-        getWeather("黄梅")
+    private void initData(String city) {
+        getWeather(city)
                 .doOnNext(weather -> {
                     initAppbarForWeather(weather);
                     RxBus.getDefault().post(weather);
@@ -175,5 +225,45 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void initLocation() {
+        mlocationClient = new AMapLocationClient(this);
+        //初始化定位参数
+        mLocationOption = new AMapLocationClientOption();
+        //设置返回地址信息，默认为true
+        mLocationOption.setNeedAddress(true);
+        //设置定位模式为高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //设置定位间隔,单位毫秒,默认为2000ms
+        mLocationOption.setInterval(2000);
+        //仅定位一次,切获取3秒内精度最高的一次.
+        mLocationOption.setOnceLocation(true);
+        mLocationOption.setOnceLocationLatest(true);
+
+        //设置定位参数
+        mlocationClient.setLocationOption(mLocationOption);
+        //设置定位监听
+        mlocationClient.setLocationListener(aMapLocation -> {
+            if (aMapLocation != null) {
+                String city = aMapLocation.getCity();
+                if (TextUtils.isEmpty(city)) {
+                    ToastUtil.shortToast("获取城市定位失败," + aMapLocation.getErrorInfo());
+                    this.city = "上海";
+                } else {
+                    this.city = city;
+                    ToastUtil.shortToast("获得定位城市:" + city);
+                }
+                initData(this.city);
+            } else {
+                ToastUtil.shortToast("获取定位城市失败,自动设置为默认城市");
+            }
+        });
+        // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
+        // 注意设置合适的定位时间的间隔（最小间隔支持为1000ms），并且在合适时间调用stopLocation()方法来取消定位请求
+        // 在定位结束后，在合适的生命周期调用onDestroy()方法
+        // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
+        //启动定位
+        mlocationClient.startLocation();
     }
 }

@@ -2,10 +2,31 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kusofan.seeweather">
 
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <!--普通权限,无需申请-->
+    <!--获取运营商信息，用于支持提供运营商信息相关的接口-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--用于访问wifi网络信息，wifi信息会用于进行网络定位-->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!--这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!--用于访问网络，网络定位需要上网-->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--LOCATION权限组权限,需申请-->
+    <!--用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!--用于访问GPS定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!--PHONE权限组权限,需申请-->
+    <!--用于读取手机当前的状态-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <!--STORAGE权限组权限,需申请-->
+    <!--写入扩展存储，向扩展卡写入数据，用于写入缓存定位数据-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <uses-permission android:name="android.permission.READ_LOGS" />
 
     <application
@@ -23,10 +44,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="2cd0bbb5733305423703d9d5e4218429" />
 
-        <activity android:name=".module.view.CityActivity"/>
+        <activity android:name=".module.view.CityActivity" />
 
         <service android:name=".base.InitializeService" />
+        <service android:name="com.amap.api.location.APSService"/>
     </application>
 
 </manifest>

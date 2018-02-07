@@ -5,7 +5,7 @@
 照着SeeWeather搞一个试试.
 
 整个项目用了rx全家桶..
-rxJava,rxAndroid,rxBus,rxLifeCycle
+rxJava,rxAndroid,rxBus,rxLifeCycle,rxPermission
 
 * rxJava了解入门
 >https://www.jianshu.com/u/c50b715ccaeb  <br />给初学者的RxJava2.0教程 (一 ~ 九)  <br />通俗易懂
@@ -19,4 +19,6 @@ rxJava,rxAndroid,rxBus,rxLifeCycle
 * 天气查询API
 >https://www.heweather.com/douments/api/s6/weather-forecast
 
-`整理流程图中`
+* 高德地图定位key申请
+>http://lbs.amap.com/dev/key/app
+1. 高德地图定位申请key需填入的SHA1值,其所对应的keystore必须在打包时选择签名release打包,否则获取定位信息会提示key不对.
