@@ -2,11 +2,13 @@ package com.kusofan.seeweather.module.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.kusofan.seeweather.R;
 import com.kusofan.seeweather.base.BaseFragment;
@@ -19,7 +21,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 
 /**
  * Created by heming on 2018/1/22.
@@ -32,13 +33,17 @@ public class MainFragment extends BaseFragment {
     RecyclerView mRecyclerLife;
     @BindView(R.id.recycler_daily)
     RecyclerView mRecyclerDaily;
-    //    @BindView(R.id.recycler)
-//    RecyclerView mRecycler;
+    @BindView(R.id.progressBar)
+    ProgressBar mProgressBar;
+    @BindView(R.id.card_life)
+    CardView mCardLife;
+    @BindView(R.id.card_daily)
+    CardView mCardDaily;
+
     private View view;
     private Weather mWeather = new Weather();
     private static MainFragment mMainFragment;
     private Unbinder unbinder;
-    //    private WeatherAdapter mAdapter;
     private LifeAdapter mLifeAdapter;
     private DailyAdapter mDailyAdapter;
 
@@ -69,12 +74,12 @@ public class MainFragment extends BaseFragment {
         RxBus.getDefault()
                 .toObservable(Weather.class)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Weather>() {
-                    @Override
-                    public void accept(Weather weather) throws Exception {
-                        mWeather = weather;
-                        initView();
-                    }
+                .subscribe(weather -> {
+                    mCardLife.setVisibility(View.VISIBLE);
+                    mCardDaily.setVisibility(View.VISIBLE);
+                    mProgressBar.setVisibility(View.GONE);
+                    mWeather = weather;
+                    initView();
                 });
     }
 

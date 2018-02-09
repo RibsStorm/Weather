@@ -3,6 +3,7 @@ package com.kusofan.seeweather;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -169,7 +170,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             Intent intent = new Intent(this, CityActivity.class);
             CircularAnimUtil.startActivity(this, intent, mFab, R.color.colorPrimary);
         });
-        mCollapsingToolbar.setTitle(SharedPreferenceUtil.getInstance().getCityName());
     }
 
     private Observable<Weather> getWeather(String city) {
@@ -178,6 +178,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void initData(String city) {
+        mCollapsingToolbar.setTitle(city);
         getWeather(city)
                 .doOnNext(weather -> {
                     initAppbarForWeather(weather);
@@ -214,19 +215,24 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_choose_city) {
-            // Handle the camera action
-        } else if (id == R.id.nav_more_city) {
-
+        if (id == R.id.nav_more_city) {
+            ToastUtil.shortToast("到时候做完,添加多城市选择功能.");
         } else if (id == R.id.nav_setting) {
-
+            ToastUtil.shortToast("没做完,以后再说.");
         } else if (id == R.id.nav_about) {
-
+            Uri uri = Uri.parse("https://github.com/LaLaTiao/Weather");
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setData(uri);
+            startActivity(intent);
         }
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
+    /**
+     * 高德定位
+     */
     private void initLocation() {
         mlocationClient = new AMapLocationClient(this);
         //初始化定位参数
@@ -249,7 +255,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 String city = aMapLocation.getCity();
                 if (TextUtils.isEmpty(city)) {
                     ToastUtil.shortToast("获取城市定位失败," + aMapLocation.getErrorInfo());
-                    this.city = "上海";
+                    this.city = "上海市";
                 } else {
                     this.city = city;
                     ToastUtil.shortToast("获得定位城市:" + city);
